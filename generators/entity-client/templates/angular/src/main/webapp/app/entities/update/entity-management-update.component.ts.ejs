@@ -100,7 +100,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
     <%_ } _%>
 <%_ } _%>
 
-    editForm = this.fb.group({
+    editForm = this.fb.group<I<%= entityAngularName %>>({
     <%_ for (const field of fields) {
         const fieldName = field.fieldName;
     _%>
