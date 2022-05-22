@@ -104,9 +104,9 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
     <%_ for (const field of fields) {
         const fieldName = field.fieldName;
     _%>
-        <%= fieldName %>: [<% if (field.fieldValidate === true) { %>null,[<% if (field.fieldValidationRequired) { %>Validators.required,<% } %><% if (field.fieldValidationMinLength) { %>Validators.minLength(<%= field.fieldValidateRulesMinlength %>),<% } %><% if (field.fieldValidationMaxLength) { %>Validators.maxLength(<%= field.fieldValidateRulesMaxlength %>),<% } %><% if (field.fieldValidationMin) { %>Validators.min(<%= field.fieldValidateRulesMin %>),<% } %><% if (field.fieldValidationMax) { %>Validators.max(<%= field.fieldValidateRulesMax %>),<% } %><% if (field.fieldValidationPattern) { %>Validators.pattern('<%= field.fieldValidateRulesPattern.replace(/\\/g, '\\\\') %>'),<% } %>]<% } %>],
+        <%= fieldName %>: [null as <%= tsType %> | null<% if (field.fieldValidate === true) { %>, [<% if (field.fieldValidationRequired) { %>Validators.required,<% } %><% if (field.fieldValidationMinLength) { %>Validators.minLength(<%= field.fieldValidateRulesMinlength %>),<% } %><% if (field.fieldValidationMaxLength) { %>Validators.maxLength(<%= field.fieldValidateRulesMaxlength %>),<% } %><% if (field.fieldValidationMin) { %>Validators.min(<%= field.fieldValidateRulesMin %>),<% } %><% if (field.fieldValidationMax) { %>Validators.max(<%= field.fieldValidateRulesMax %>),<% } %><% if (field.fieldValidationPattern) { %>Validators.pattern('<%= field.fieldValidateRulesPattern.replace(/\\/g, '\\\\') %>'),<% } %>]<% } %>],
         <%_ if (field.fieldTypeBinary && !field.blobContentTypeText) { _%>
-        <%= fieldName %>ContentType: [],
+        <%= fieldName %>ContentType: [null as <%= tsType %> | null],
         <%_ } _%>
     <%_ } _%>
 <%_ for (const relationship of relationships) {
@@ -116,9 +116,9 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
     const relationshipRequired = relationship.relationshipRequired;
 _%>
     <%_ if (relationship.relationshipManyToOne || (relationship.relationshipOneToOne && ownerSide)) { _%>
-        <%= relationshipName %>: [<% if (relationshipRequired) { %>null,Validators.required<% } %>],
+        <%= relationshipName %>: [null as I<%= relationship.otherEntity.entityAngularName %> | null<% if (relationshipRequired) { %>,Validators.required<% } %>],
     <%_ } else if (relationship.relationshipManyToMany && ownerSide) { _%>
-        <%= relationshipFieldNamePlural %>: [<% if (relationshipRequired) { %>null,Validators.required<% } %>],
+        <%= relationshipFieldNamePlural %>: [null as I<%= relationship.otherEntity.entityAngularName %> | null<% if (relationshipRequired) { %>,Validators.required<% } %>],
     <%_ } _%>
 <%_ } _%>
     });
